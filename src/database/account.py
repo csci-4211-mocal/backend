@@ -12,7 +12,7 @@ def get_account_by_id(id: str) -> Account:
         '''
         SELECT id, username, password
         FROM account
-        WHERE id = %s
+        WHERE id = ?
         '''
 
     connection = sql.connect(connection_str)
@@ -41,13 +41,13 @@ def get_account_by_username(username: str) -> Account:
         '''
         SELECT id, username, password
         FROM account
-        WHERE username = %s
+        WHERE username = ?
         '''
 
     connection = sql.connect(connection_str)
     cursor = connection.cursor()
 
-    cursor.execute(query, (id,))
+    cursor.execute(query, (username,))
     found_account = cursor.fetchone()
     if found_account is None:
         return None
@@ -69,13 +69,14 @@ def new_account(account: Account):
     query = \
         '''
         INSERT INTO account
-        (id, username, password) VALUES (%s, %s, %s)
+        (id, username, password) VALUES (?, ?, ?)
         '''
     
     connection = sql.connect(connection_str)
     cursor = connection.cursor()
 
     cursor.execute(query, (account.id, account.username, account.password))
+    connection.commit()
     
     cursor.close()
     connection.close()

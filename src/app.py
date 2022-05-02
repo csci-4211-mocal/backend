@@ -9,4 +9,8 @@ app.include_router(account.router, prefix='/accounts')
 app.include_router(contact.router, prefix='/contacts')
 app.include_router(event.router, prefix='/events')
 
+@app.get('/health')
+async def health():
+    return "In good health!"
+
 sqlite.setup()

@@ -3,11 +3,11 @@ from uuid import uuid4
 from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
-from models import Authorization, EventsList, NewEvent, Event
+from ..models import Authorization, EventsList, NewEvent, Event
 from ..auth import extract_claims
 from ..database.account import get_account_by_id
 from ..database.contact import add_contact
-from database.event import delete_events, get_events, add_events
+from ..database.event import delete_events, get_events, add_events
 
 router = APIRouter()
 

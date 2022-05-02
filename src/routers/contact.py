@@ -3,9 +3,9 @@ from fastapi.requests import Request
 from fastapi.exceptions import HTTPException
 from uuid import uuid4
 
-from models import Authorization, Contact, NewContact
+from ..models import Authorization, Contact, NewContact
 
-from ..auth import extract_token_from_request, extract_claims
+from ..auth import extract_claims
 from ..database.contact import get_contacts_by_account_id, add_contact, delete_contact
 from ..database.account import get_account_by_id
 router = APIRouter()

@@ -8,7 +8,7 @@ from ..models import Account, Authorization, Credentials
 
 router = APIRouter()
 
-@router.get('/')
+@router.post('/info')
 async def get_account_data(authorization: Authorization):
     token = authorization.token
     if token is None:
@@ -18,6 +18,8 @@ async def get_account_data(authorization: Authorization):
     account_id = claims['id']
     if account_id is None:
         return HTTPException(status.HTTP_400_BAD_REQUEST, "Invalid token provided")
+
+    print(account_id)
 
     account = get_account_by_id(account_id)
     if account is None:
@@ -44,7 +46,7 @@ async def login(credentials: Credentials):
         return { "info": found_account, "token": token }
 
     account = Account()
-    account.id = uuid4()
+    account.id = str(uuid4())
     account.username = username
     account.password = password
     new_account(account)
