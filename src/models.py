@@ -38,6 +38,7 @@ class NewContact(BaseModel):
     id: str
 
 class NewEvent(BaseModel):
+    token: str
     to_account: str
     payload: str
 

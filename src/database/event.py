@@ -12,7 +12,7 @@ def get_events(to_account: str) -> List[Event]:
         '''
         SELECT id, to_account, from_account, data
         FROM event_data
-        WHERE to_account = %s
+        WHERE to_account = ?
         '''
     
     connection = sql.connect(connection_str)
@@ -35,20 +35,21 @@ def get_events(to_account: str) -> List[Event]:
     ]
 
 
-def add_events(events: List[Event]):
+def add_events(event: Event):
     '''
     Add event data for account
     '''
     query = \
         '''
         INSERT INTO event_data
-        (id, to_account, from_account, user_data) VALUES (%s, %s, %s, %s);
+        (id, to_account, from_account, data) VALUES (?, ?, ?, ?);
         '''
 
     connection = sql.connect(connection_str)
     cursor = connection.cursor()
 
-    cursor.executemany(query, [ (event.id, event.to_account, event.from_account, event.data) for event in events ])
+    cursor.execute(query, (event.id, event.to_account, event.from_account, event.data))
+    connection.commit()
 
     cursor.close()
     connection.close()
@@ -61,7 +62,7 @@ def delete_events(events: List[str]):
     query = \
         '''
         DELETE FROM event_data
-        WHERE id = %s
+        WHERE id = ?
         '''
     
     connection = sql.connect(connection_str)
