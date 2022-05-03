@@ -44,5 +44,6 @@ class NewEvent(BaseModel):
     to_account: str
     payload: str
 
-class EventsList(BaseModel):
-    events: str
+class DeleteEvent(BaseModel):
+    token: str
+    event_id: str

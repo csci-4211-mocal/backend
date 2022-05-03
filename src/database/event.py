@@ -55,7 +55,7 @@ def add_events(event: Event):
     connection.close()
 
 
-def delete_events(events: List[str]):
+def delete_events(id: str):
     '''
     Delete events
     '''
@@ -68,7 +68,8 @@ def delete_events(events: List[str]):
     connection = sql.connect(connection_str)
     cursor = connection.cursor()
 
-    cursor.executemany(query, [ (e,) for e in events ])
+    cursor.execute(query, (id,))
+    connection.commit()
 
     cursor.close()
     connection.close()

@@ -19,8 +19,6 @@ async def get_account_data(authorization: Authorization):
     if account_id is None:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "Invalid token provided")
 
-    print(account_id)
-
     account = get_account_by_id(account_id)
     if account is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "No account found")

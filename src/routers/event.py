@@ -3,7 +3,7 @@ from uuid import uuid4
 from fastapi import APIRouter, status, Request
 from fastapi.exceptions import HTTPException
 
-from ..models import Authorization, EventsList, NewEvent, Event
+from ..models import Authorization, NewEvent, DeleteEvent, Event
 from ..auth import extract_claims
 from ..database.account import get_account_by_id, get_account_by_username
 from ..database.contact import add_contact
@@ -64,8 +64,8 @@ async def new_event(new_event: NewEvent):
 
 
 @router.post('/delete')
-async def delete(authorization: Authorization, events_list: EventsList):
-    token = authorization.token
+async def delete(delete_event: DeleteEvent):
+    token = delete_event.token
     if token is None:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "No token provided")
     
@@ -77,5 +77,4 @@ async def delete(authorization: Authorization, events_list: EventsList):
     if account_id is None:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "Invalid token")
 
-    events = events_list.events
-    delete_events(events)
+    delete_events(delete_event.event_id)
