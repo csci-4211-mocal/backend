@@ -4,7 +4,7 @@ from ..models import Event
 
 connection_str = "mocal.db"
 
-def get_events(to_account: str) -> List[Event]:
+def get_all_events(to_account: str) -> List[Event]:
     '''
     Get event data for account
     '''

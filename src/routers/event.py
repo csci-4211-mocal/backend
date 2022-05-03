@@ -1,17 +1,17 @@
 import json
 from uuid import uuid4
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, Request
 from fastapi.exceptions import HTTPException
 
 from ..models import Authorization, EventsList, NewEvent, Event
 from ..auth import extract_claims
 from ..database.account import get_account_by_id, get_account_by_username
 from ..database.contact import add_contact
-from ..database.event import delete_events, get_events, add_events
+from ..database.event import delete_events, get_all_events, add_events
 
 router = APIRouter()
 
-@router.get('/')
+@router.post('/all')
 async def get_events(authorization: Authorization):
     token = authorization.token
     if token is None:
@@ -25,7 +25,7 @@ async def get_events(authorization: Authorization):
     if account_id is None:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "Invalid token")
 
-    events = get_events(account_id)
+    events = get_all_events(account_id)
     if events is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "No events found")
 
