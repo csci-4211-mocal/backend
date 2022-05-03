@@ -1,12 +1,10 @@
-import json
 from uuid import uuid4
-from fastapi import APIRouter, status, Request
+from fastapi import APIRouter, status
 from fastapi.exceptions import HTTPException
 
 from ..models import Authorization, NewEvent, DeleteEvent, Event
 from ..auth import extract_claims
-from ..database.account import get_account_by_id, get_account_by_username
-from ..database.contact import add_contact
+from ..database.account import get_account_by_username
 from ..database.event import delete_events, get_all_events, add_events
 
 router = APIRouter()
